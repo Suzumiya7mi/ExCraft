@@ -23,11 +23,11 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         self.setupUi(self)
         global data
         cfg = Path("./config.ini")
-        if cfg.exists():
+        if cfg.exists():        #如果config文件存在
             for line in open("config.ini", "r"):  # 设置文件对象并读取每一行文件
                 line=line[:-1] #删除末尾换行符
                 data.append(line)  # 将每一行文件加入到list中
-            if len(data)==6:  #如果数据是完整的
+            if len(data)==6:  #如果数据是完整的 读入数据
                 self.text1.setText(data[0])
                 self.text2.setText(data[1])
                 self.text3.setText(data[2])
@@ -48,7 +48,7 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         keyMap[4] = self.text5.text()
         keyMap[5] = self.text6.text()
 
-        f = open("config.ini", "w+")
+        f = open("config.ini", "w+")    #写入config文件存档
         for i in range(0,6):
             f.write(keyMap[i])
             f.write("\n")
@@ -79,21 +79,33 @@ class MyThread(QThread): # 建立一个任务线程类
             if str(event.Key).lower() == listK[0].lower():
                 win32api.keybd_event(103, 0, 0, 0)  # 对应小键盘7
                 win32api.keybd_event(103, 0, win32con.KEYEVENTF_KEYUP, 0)
+                win32api.keybd_event(8, 0, 0, 0)  # 对应backspace删除映射输出
+                win32api.keybd_event(8, 0, win32con.KEYEVENTF_KEYUP, 0)
             elif str(event.Key).lower() == keyMap[2].lower():
                 win32api.keybd_event(100, 0, 0, 0)  # 对应小键盘4
                 win32api.keybd_event(100, 0, win32con.KEYEVENTF_KEYUP, 0)
+                win32api.keybd_event(8, 0, 0, 0)  # 对应backspace删除映射输出
+                win32api.keybd_event(8, 0, win32con.KEYEVENTF_KEYUP, 0)
             elif str(event.Key).lower() == keyMap[4].lower():
                 win32api.keybd_event(97, 0, 0, 0)  # 对应小键盘1
                 win32api.keybd_event(97, 0, win32con.KEYEVENTF_KEYUP, 0)
+                win32api.keybd_event(8, 0, 0, 0)  # 对应backspace删除映射输出
+                win32api.keybd_event(8, 0, win32con.KEYEVENTF_KEYUP, 0)
             elif str(event.Key).lower() == keyMap[1].lower():
                 win32api.keybd_event(104, 0, 0, 0)  # 对应小键盘8
                 win32api.keybd_event(104, 0, win32con.KEYEVENTF_KEYUP, 0)
+                win32api.keybd_event(8, 0, 0, 0)  # 对应backspace删除映射输出
+                win32api.keybd_event(8, 0, win32con.KEYEVENTF_KEYUP, 0)
             elif str(event.Key).lower() == keyMap[3].lower():
                 win32api.keybd_event(101, 0, 0, 0)  # 对应小键盘5
                 win32api.keybd_event(101, 0, win32con.KEYEVENTF_KEYUP, 0)
+                win32api.keybd_event(8, 0, 0, 0)  # 对应backspace删除映射输出
+                win32api.keybd_event(8, 0, win32con.KEYEVENTF_KEYUP, 0)
             elif str(event.Key).lower() == keyMap[5].lower():
                 win32api.keybd_event(98, 0, 0, 0)  # 对应小键盘2
                 win32api.keybd_event(98, 0, win32con.KEYEVENTF_KEYUP, 0)
+                win32api.keybd_event(8, 0, 0, 0)  # 对应backspace删除映射输出
+                win32api.keybd_event(8, 0, win32con.KEYEVENTF_KEYUP, 0)
         else:
             pass
         return True

@@ -114,7 +114,7 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Excraft v0.13"))
+        Form.setWindowTitle(_translate("Form", "Excraft v0.15"))
         Form.setWindowIcon(QIcon("./logo.png"))
         self.label_2.setText(_translate("Form", "<html><head/><body><p>物品栏1</p></body></html>"))
         self.label_3.setText(_translate("Form", "<html><head/><body><p>物品栏3</p></body></html>"))
