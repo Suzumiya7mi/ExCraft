@@ -1,5 +1,5 @@
 # ExCraft
-a toolset for Warcraft3（Dota1）/ War3的工具集
+a toolset for Warcraft3（Dota1）/ War3的工具集：改键、无边框窗口化等
 
 ## version 0.1x
 主要完成Dota改键部分的功能
