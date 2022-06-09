@@ -9,6 +9,7 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QIcon
 
 
 class Ui_Form(object):
@@ -108,7 +109,7 @@ class Ui_Form(object):
         self.label_9.setGeometry(QtCore.QRect(210, 40, 111, 171))
         self.label_9.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.label_9.setText("")
-        self.label_9.setPixmap(QtGui.QPixmap("item.png"))
+        self.label_9.setPixmap(QtGui.QPixmap("./exdata/item.png"))
         self.label_9.setObjectName("label_9")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -128,7 +129,8 @@ class Ui_Form(object):
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Excraft v0.16"))
+        Form.setWindowTitle(_translate("Form", "Excraft v0.16f"))
+        Form.setWindowIcon(QIcon("./exdata/logo.png"))
         self.label_2.setText(_translate("Form", "<html><head/><body><p>物品栏1</p></body></html>"))
         self.label_3.setText(_translate("Form", "<html><head/><body><p>物品栏3</p></body></html>"))
         self.label_4.setText(_translate("Form", "<html><head/><body><p>物品栏2</p></body></html>"))

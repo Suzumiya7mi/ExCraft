@@ -129,3 +129,5 @@ if __name__ == '__main__':
     my_pyqt_form = MyPyQT_Form()
     my_pyqt_form.show()
     sys.exit(app.exec_())
+    # 打包exe指令为：
+    # pyinstaller --clean -F -w --upx-dir='E:\Code.cpp\upx-3.96-win32' -i .\logo.ico main.py
