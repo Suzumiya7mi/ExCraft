@@ -1,11 +1,13 @@
 import sys
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import QThread, pyqtSignal
+from PyQt5 import QtWidgets, QtCore
+from PyQt5.QtCore import QThread, pyqtSignal, QCoreApplication
 from untitled import Ui_Form
 import pythoncom
 import PyHook3
 import win32api
+import win32gui
 import win32con
+import time
 from pathlib import Path
 
 global keyMap
@@ -41,6 +43,7 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
     def RUN_click(self):
         global keyMap
         global flag
+
         keyMap[0] = self.text1.text()
         keyMap[1] = self.text2.text()
         keyMap[2] = self.text3.text()
@@ -62,8 +65,21 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
             flag=0
             self.pushButton.setText("RUN")
 
-    def Save_click(self):
+    def Window_click(self):
+        win32api.ShellExecute(0, 'open', 'War3.exe', '-window', '', 4)
+        time.sleep(2)
+
+        hwnd = win32gui.FindWindow(None, "Warcraft III")
+        cx = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)# 屏幕宽度像素
+        cy = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)# 屏幕高度像素
+        l_WinStyle = win32api.GetWindowLong(hwnd, win32con.GWL_STYLE)# 获取窗口信息
+        win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, (l_WinStyle | win32con.WS_POPUP | win32con.WS_MAXIMIZE)\
+                               & (~win32con.WS_CAPTION) & (~win32con.WS_THICKFRAME)& (~win32con.WS_BORDER))#去除屏幕边框
+        win32gui.SetWindowPos(hwnd, win32con.HWND_TOP, 0, 0, cx, cy, win32con.SWP_SHOWWINDOW)# 确定窗口位置和大小，切记是win32GUI下的函数
+        #win32api.ShowWindow(hwnd, win32con.SW_SHOWMAXIMIZED)
+
         return
+
 
 
 class MyThread(QThread): # 建立一个任务线程类
@@ -125,6 +141,7 @@ class MyThread(QThread): # 建立一个任务线程类
 
 
 if __name__ == '__main__':
+    QCoreApplication.setAttribute(QtCore.Qt.AA_EnableHighDpiScaling)
     app = QtWidgets.QApplication(sys.argv)
     my_pyqt_form = MyPyQT_Form()
     my_pyqt_form.show()

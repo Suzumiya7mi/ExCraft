@@ -15,7 +15,9 @@ from PyQt5.QtGui import QIcon
 class Ui_Form(object):
     def setupUi(self, Form):
         Form.setObjectName("Form")
-        Form.resize(342, 279)
+        Form.resize(340, 280)
+        Form.setMinimumSize(QtCore.QSize(340, 280))
+        Form.setMaximumSize(QtCore.QSize(340, 280))
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("logo.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Form.setWindowIcon(icon)
@@ -109,11 +111,14 @@ class Ui_Form(object):
         self.label_9.setGeometry(QtCore.QRect(210, 40, 111, 171))
         self.label_9.setFocusPolicy(QtCore.Qt.WheelFocus)
         self.label_9.setText("")
-        self.label_9.setPixmap(QtGui.QPixmap("./exdata/item.png"))
+        self.label_9.setPixmap(QtGui.QPixmap("exdata/item.png"))
         self.label_9.setObjectName("label_9")
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
+        self.pushButton_2 = QtWidgets.QPushButton(self.tab_2)
+        self.pushButton_2.setGeometry(QtCore.QRect(120, 90, 75, 23))
+        self.pushButton_2.setObjectName("pushButton_2")
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
@@ -125,11 +130,12 @@ class Ui_Form(object):
         self.retranslateUi(Form)
         self.tabWidget.setCurrentIndex(0)
         self.pushButton.clicked.connect(Form.RUN_click)
+        self.pushButton_2.clicked.connect(Form.Window_click)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
         _translate = QtCore.QCoreApplication.translate
-        Form.setWindowTitle(_translate("Form", "Excraft v0.16f"))
+        Form.setWindowTitle(_translate("Form", "Excraft v0.20"))
         Form.setWindowIcon(QIcon("./exdata/logo.png"))
         self.label_2.setText(_translate("Form", "<html><head/><body><p>物品栏1</p></body></html>"))
         self.label_3.setText(_translate("Form", "<html><head/><body><p>物品栏3</p></body></html>"))
@@ -140,6 +146,7 @@ class Ui_Form(object):
         self.label.setText(_translate("Form", "<html><head/><body><p><span style=\" font-family:\'华文中宋\'; font-size:14pt;\">改键模块</span></p></body></html>"))
         self.pushButton.setText(_translate("Form", "RUN"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("Form", "改键"))
+        self.pushButton_2.setText(_translate("Form", "窗口化运行"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("Form", "全屏化"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_3), _translate("Form", "Tab 3"))
         self.label_8.setText(_translate("Form", "<html><head/><body><p>Powered by: <span style=\" font-family:\'Palatino Linotype\',\'serif\'; font-size:11pt; color:#4b1eff;\">Suzumiya</span></p></body></html>"))
