@@ -18,6 +18,7 @@ keyMap = {
 }
 data = []
 flag = 0
+
 class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
 
     def __init__(self):
@@ -27,9 +28,9 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
         cfg = Path("./config.ini")
         if cfg.exists():        #如果config文件存在
             for line in open("config.ini", "r"):  # 设置文件对象并读取每一行文件
-                line=line[:-1] #删除末尾换行符
+                line = line[:-1] #删除末尾换行符
                 data.append(line)  # 将每一行文件加入到list中
-            if len(data)==6:  #如果数据是完整的 读入数据
+            if len(data) == 6:  #如果数据是完整的 读入数据
                 self.text1.setText(data[0])
                 self.text2.setText(data[1])
                 self.text3.setText(data[2])
@@ -57,37 +58,48 @@ class MyPyQT_Form(QtWidgets.QWidget, Ui_Form):
             f.write("\n")
         f.close()
 
-        if flag==0:
-            flag=1
+        if flag == 0:
+            flag = 1
             self.pushButton.setText("Listening")
             self.mythread.start()
         else:
-            flag=0
+            flag = 0
             self.pushButton.setText("RUN")
 
     def Window_click(self):
-        win32api.ShellExecute(0, 'open', 'War3.exe', '-window', '', 4)
-        time.sleep(2)
+        game = Path("./War3.exe")
+        if not game.exists():
+            self.label_fullscreen_try.setText("找不到War3.exe")
+            return
 
-        hwnd = win32gui.FindWindow(None, "Warcraft III")
-        cx = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)# 屏幕宽度像素
-        cy = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)# 屏幕高度像素
-        l_WinStyle = win32api.GetWindowLong(hwnd, win32con.GWL_STYLE)# 获取窗口信息
-        win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, (l_WinStyle | win32con.WS_POPUP | win32con.WS_MAXIMIZE)\
-                               & (~win32con.WS_CAPTION) & (~win32con.WS_THICKFRAME)& (~win32con.WS_BORDER))#去除屏幕边框
-        win32gui.SetWindowPos(hwnd, win32con.HWND_TOP, 0, 0, cx, cy, win32con.SWP_SHOWWINDOW)# 确定窗口位置和大小，切记是win32GUI下的函数
-        #win32api.ShowWindow(hwnd, win32con.SW_SHOWMAXIMIZED)
+        win32api.ShellExecute(0, 'open', 'War3.exe', '-window', '', 4)
+        Window_wait_count = 0
+        hwnd = None  # 相当于do(每隔1s，获取War3窗口句柄)直到获取成功
+        while (hwnd == None) and (Window_wait_count < 10):
+            time.sleep(1)
+            hwnd = win32gui.FindWindow(None, "Warcraft III")
+            Window_wait_count += 1  # 设置等待上限避免死循环
+            self.label_fullscreen_try.setText("正在尝试第{0}次".format(Window_wait_count))
+
+        if hwnd:    # 如果窗口进程存在
+            self.label_fullscreen_try.setText("经{0}次尝试后成功全屏化".format(Window_wait_count))
+            cx = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)    # 屏幕宽度像素
+            cy = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)    # 屏幕高度像素
+            l_WinStyle = win32api.GetWindowLong(hwnd, win32con.GWL_STYLE)   # 获取窗口信息
+            win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, (l_WinStyle | win32con.WS_POPUP | win32con.WS_MAXIMIZE)\
+                                   & (~win32con.WS_CAPTION) & (~win32con.WS_THICKFRAME)& (~win32con.WS_BORDER))     # 去除屏幕边框
+            win32gui.SetWindowPos(hwnd, win32con.HWND_TOP, 0, 0, cx, cy, win32con.SWP_SHOWWINDOW)   # 确定窗口位置和大小切记是win32GUI下的函数
 
         return
 
 
 
-class MyThread(QThread): # 建立一个任务线程类
+class MyThread(QThread):    # 建立一个任务线程类
     signal = pyqtSignal(str) #设置触发信号传递的参数数据类型,这里是字符串
     def __init__(self):
         super(MyThread, self).__init__()
 
-    def onKeyboardEvent(self,event):
+    def onKeyboardEvent(self, event):
         global keyMap
         global flag
         listK=[keyMap[0],keyMap[1],keyMap[2],keyMap[3],keyMap[4],keyMap[5]]
